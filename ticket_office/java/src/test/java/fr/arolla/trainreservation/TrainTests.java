@@ -14,9 +14,7 @@ class TrainTests {
 
   @Test
   public void can_book_a_seat() {
-    var train = new Train();
-    var seat = Seat.empty("1", "A");
-    train.add(seat);
+    var train = Helpers.makeEmptyTrain();
     train.book("1A", "abc123");
 
     var returnedSeat = train.getSeat("1A");
@@ -26,9 +24,8 @@ class TrainTests {
 
   @Test
   public void cannot_book_the_same_seat_twice_with_different_booking_references() {
-    var train = new Train();
-    var seat = Seat.booked("1", "A", "old-reference");
-    train.add(seat);
+    var train = Helpers.makeEmptyTrain();
+    train.book("1A", "old-reference");
 
     assertThrows(AlreadyBookedException.class,
       () -> train.book("1A", "new-reference"));
