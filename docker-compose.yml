@@ -1,0 +1,13 @@
+services:
+  booking_reference:
+    build: booking_reference/
+    network_mode: host
+
+  train_data:
+    build: train_data/
+    network_mode: host
+
+networks:
+  hostsnet:
+    external: true
+    name: host
