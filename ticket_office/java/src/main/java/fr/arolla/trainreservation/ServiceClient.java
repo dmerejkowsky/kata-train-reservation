@@ -4,8 +4,9 @@ import java.util.List;
 
 public interface ServiceClient {
   String getBookingReference();
+  
+  Train getTrain(String trainId);
 
-  String getTrainData(String trainId);
 
   void makeReservation(String trainId, String bookingReference, List<String> seats);
 }

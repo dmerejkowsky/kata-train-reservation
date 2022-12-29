@@ -17,8 +17,8 @@ public class FakeClient implements ServiceClient {
   }
 
   @Override
-  public String getTrainData(String trainId) {
-    return "";
+  public Train getTrain(String trainId) {
+    return train;
   }
 
   @Override
