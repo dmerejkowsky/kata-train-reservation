@@ -34,10 +34,10 @@ public class RestClient implements ServiceClient {
         String seatNumber = node.get("seat_number").asText();
         var jsonBookingReference = node.get("booking_reference").asText();
         if (jsonBookingReference.isEmpty()) {
-          var seat = new Seat(seatNumber, coach, null);
+          var seat = Seat.empty(seatNumber, coach);
           train.add(seat);
         } else {
-          var seat = new Seat(seatNumber, coach, jsonBookingReference);
+          var seat = Seat.booked(seatNumber, coach, jsonBookingReference);
           train.add(seat);
         }
       }

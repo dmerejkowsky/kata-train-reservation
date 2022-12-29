@@ -24,6 +24,8 @@ public class Train {
     seats.put(seat.id(), seat);
   }
 
-  public void book(String seatId) {
+  public void book(String seatId, String bookingReference) {
+    var seat = getSeat(seatId);
+    seat.book(bookingReference);
   }
 }
