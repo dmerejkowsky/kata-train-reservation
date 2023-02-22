@@ -4,7 +4,7 @@ const app = express()
 app.use(express.json())
 const port = 8081
 
-const trains = require('../trains.json')
+const trains = require('./trains.json')
 
 app.get("/data_for_train/:trainId", (req, res) => {
     const trainId = req.params.trainId
