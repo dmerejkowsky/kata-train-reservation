@@ -15,6 +15,9 @@ def create_app():
         train_id = payload["train_id"]
 
         client = Client()
+
+        booking_reference = client.get("http://localhost:8082/booking_reference").text
+
         train_data = client.get(
             f"http://localhost:8081/data_for_train/" + train_id
         ).json()
@@ -22,7 +25,6 @@ def create_app():
         to_reserve = []
         for i in range(seat_count):
             to_reserve.append(next(available_seats))
-        booking_reference = client.get("http://localhost:8082/booking_reference").text
 
         seat_ids = [s["seat_number"] + s["coach"] for s in to_reserve]
         reservation = {
