@@ -66,7 +66,6 @@ from flask import Flask, jsonify, request
 def create_app():
     with open("trains.json", "r") as f:
         trains = json.load(f)
-        foos = []
 
     app = Flask("train_data")
 
@@ -76,11 +75,6 @@ def create_app():
         if not train:
             return f"No train with id '{train_id}'", 404
         return jsonify(train)
-
-    @app.post("/foo")
-    def foo():
-        foos.append("foo")
-        return jsonify(foos)
 
     @app.post("/reset/<train_id>")
     def reset(train_id):
@@ -103,7 +97,7 @@ def create_app():
         train = trains.get(train_id)
         if not train:
             return f"No train with id '{train_id}'", 404
-
+ 
         seats = payload.get("seats")
         if not seats:
             return "Missing 'seats' in body", 400
