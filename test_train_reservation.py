@@ -83,6 +83,6 @@ def test_ticket_office():
     payload = {"train_id": "express_2000", "count": 2}
     response = client.post("http://127.0.0.1:8083/reserve", json=payload)
 
-    assert response.status_code == 200
+    assert response.status_code == 200, response.text
     response = response.json()
     assert response["seats"] == ["1A", "2A"]
