@@ -97,7 +97,7 @@ def create_app():
         train = trains.get(train_id)
         if not train:
             return f"No train with id '{train_id}'", 404
- 
+
         seats = payload.get("seats")
         if not seats:
             return "Missing 'seats' in body", 400
@@ -111,7 +111,11 @@ def create_app():
                 return f"No seat found with number {seat}", 404
             existing_reservation = train["seats"][seat]["booking_reference"]
             if existing_reservation and existing_reservation != booking_reference:
-                return f"already booked with reference: {existing_reservation}", 409
+                return (
+                    f"Cannot book seat {seat} with {booking_reference} - "
+                    + f"already booked with {existing_reservation}",
+                    409,
+                )
 
         for seat in seats:
             train["seats"][seat]["booking_reference"] = booking_reference
