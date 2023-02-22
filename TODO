@@ -1,3 +1,4 @@
 * Merge all `start`  branches
 * Port the Python microservices in all languages
 * CS: make sure all seats are in the same coach
+* CS: add a Seat record
