@@ -16,6 +16,6 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
-    "test": "ts-node node_modules/tape/bin/tape *.test.ts | tap-spec"
+    "test": "ts-node node_modules/tape/bin/tape **/*.test.ts | tap-spec"
   }
 }
