@@ -24,10 +24,8 @@ app.post("/reserve", async (req, res) => {
     const train = await response.json()
     const seatsInTrain: Seat[] = Object.values(train.seats)
 
-    // Step 3: find available seats
-    const availableSeats = seatsInTrain.filter(s => s.booking_reference === "")
     // TODO: do not hard-code coach number
-    const inFirstCoach = availableSeats.filter(s => s.coach === "A")
+    const inFirstCoach = seatsInTrain.filter(s => s.coach === "A")
 
     // Step 4: make reservation
     const toReserve = inFirstCoach.slice(0, seatCount)
@@ -54,6 +52,8 @@ app.post("/reserve", async (req, res) => {
     res.send(reservation)
 })
 
+
+
 app.listen(port, () => {
     console.log(`Ticket Office listening on port ${port}`)
-}) 
+})
