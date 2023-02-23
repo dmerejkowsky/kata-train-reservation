@@ -1,8 +1,11 @@
 import express from 'express'
+import morgan from 'morgan'
+
+const port = 8081
 
 const app = express()
 app.use(express.json())
-const port = 8081
+app.use(morgan('tiny'))
 
 const trains = require('./trains.json')
 

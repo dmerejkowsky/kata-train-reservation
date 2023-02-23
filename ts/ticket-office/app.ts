@@ -1,11 +1,14 @@
 import express from 'express'
 import fetch from 'node-fetch'
+import morgan from 'morgan'
+
 import { Seat } from './seat'
+
+const port = 8083
 
 const app = express()
 app.use(express.json())
-const port = 8083
-
+app.use(morgan('tiny'))
 
 app.post("/reserve", async (req, res) => {
     const { body } = req

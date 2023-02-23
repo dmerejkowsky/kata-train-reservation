@@ -1,7 +1,10 @@
 import express from 'express'
+import morgan from 'morgan'
+
+const port = 8082
 
 const app = express()
-const port = 8082
+app.use(morgan('tiny'))
 
 class Counter {
     private _count: number
