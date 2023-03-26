@@ -1,9 +1,9 @@
-package fr.arolla.trainreservation.ticket_office.controllers;
+package fr.arolla.trainreservation.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.arolla.trainreservation.ticket_office.Seat;
+import fr.arolla.trainreservation.Seat;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,7 +40,7 @@ public class BookingController {
       for (JsonNode node : seatsNode) {
         String coach = node.get("coach").asText();
         String seatNumber = node.get("seat_number").asText();
-        var jsonBookingReference = node.get("fr/arolla/trainreservation/booking_reference").asText();
+        var jsonBookingReference = node.get("booking_reference").asText();
         if (jsonBookingReference.isEmpty()) {
           var seat = new Seat(seatNumber, coach, null);
           seats.add(seat);
@@ -64,7 +64,7 @@ public class BookingController {
     Map<String, Object> payload = new HashMap<>();
     payload.put("train_id", trainId);
     payload.put("seats", ids);
-    payload.put("fr/arolla/trainreservation/booking_reference", bookingReference);
+    payload.put("booking_reference", bookingReference);
     restTemplate.postForObject("http://127.0.0.1:8081/reserve", payload, String.class);
 
     // Step 5: return reference and booked seats

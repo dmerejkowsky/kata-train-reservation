@@ -1,4 +1,4 @@
-package fr.arolla.trainreservation.ticket_office;
+package fr.arolla.trainreservation;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
