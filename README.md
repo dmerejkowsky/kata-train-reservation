@@ -55,11 +55,6 @@ should instead return a 400 status code.
 
 # Instructions
 
-* Make sure that  ports 8081 and 8082 are free
-* Run the two web services using `docker compose` (and refrain
-  from editing their source code, that's cheating :P)
-* Implement the `ticket_office` web service using the starting point in
-  `ticket_office/<language>`. APIs for the two services are documented
-  as comments in the
-  [get_booking_reference/app.py](https://github.com/dmerejkowsky/kata-train-reservation/blob/main/booking_reference/app.py) and
-  [train_data/app.py](https://github.com/dmerejkowsky/kata-train-reservation/blob/main/train_data/app.py) files respectively
+One test is failing because ticket_office never checks that seats have been reserved
+
+Fix the test and the production code
