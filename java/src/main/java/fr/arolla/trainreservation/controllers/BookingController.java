@@ -20,13 +20,12 @@ public class BookingController {
   BookingController() {
   }
 
-
   @RequestMapping("/reserve")
   BookingResponse reserve(@RequestBody BookingRequest bookingRequest) {
     var seatCount = bookingRequest.seat_count();
     var trainId = bookingRequest.train_id();
 
-    // Step 1: Get a booking refenrence
+    // Step 1: Get a booking reference
     var restTemplate = new RestTemplate();
     var bookingReference = restTemplate.getForObject("http://127.0.0.1:8082/booking_reference", String.class);
 
