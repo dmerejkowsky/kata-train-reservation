@@ -16,5 +16,3 @@ dotnet run
 
 Open the `TicketOffice.sln` solution and run the tests.
 
-One is failing - your goal is to make it pass, but first refactor
-the code!
