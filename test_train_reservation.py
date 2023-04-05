@@ -7,10 +7,14 @@ It assumes the three webservices are running
 import httpx
 
 
-def test_get_reservation():
+def test_get_booking_reference():
     client = httpx.Client()
-    ref1 = client.get("http://127.0.0.1:8082/booking_reference").text
-    ref2 = client.get("http://127.0.0.1:8082/booking_reference").text
+    r1 = client.get("http://127.0.0.1:8082/booking_reference")
+    r1.raise_for_status()
+    ref1 = r1.text
+    r2 = client.get("http://127.0.0.1:8082/booking_reference")
+    r2.raise_for_status()
+    ref2 = r2.text
     assert ref1 != ref2
 
 
@@ -22,8 +26,10 @@ def test_get_data_for_train_no_such_train():
 
 def test_get_data_for_existing_train():
     client = httpx.Client()
-    response = client.get("http://127.0.0.1:8081/data_for_train/express_2000").json()
-    assert "seats" in response
+    response = client.get("http://127.0.0.1:8081/data_for_train/express_2000")
+    response.raise_for_status()
+    train_data = response.json()
+    assert "seats" in train_data
 
 
 def reset_train(train_id):
@@ -47,7 +53,7 @@ def test_reserve_ok():
         "seats": ["1A", "2A"],
     }
     response = client.post("http://127.0.0.1:8081/reserve", json=payload)
-    assert response.status_code == 200
+    assert response.status_code == 200, response.text
     train = response.json()
     assert train["seats"]["1A"]["booking_reference"] == "abc123"
 
