@@ -66,6 +66,6 @@ public class BookingController {
     restTemplate.postForObject("http://127.0.0.1:8081/reserve", payload, String.class);
 
     // Step 5: return reference and booked seats
-    return new BookingResponse(bookingReference, ids);
+    return new BookingResponse(trainId, bookingReference, ids);
   }
 }
