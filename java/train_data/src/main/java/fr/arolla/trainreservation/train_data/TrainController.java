@@ -1,20 +1,18 @@
-package info.dmerej;
+package fr.arolla.trainreservation.train_data;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import org.springframework.web.bind.annotation.*;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.io.IOException;
 import java.io.InputStream;
 
-@Path("/")
-public class TrainResource {
+@RestController
+public class TrainController {
   private JsonNode trains;
 
-  TrainResource() {
+  TrainController() {
     resetTrains();
   }
 
@@ -30,55 +28,43 @@ public class TrainResource {
     }
   }
 
-  @Path("reset/{trainId}")
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  public String reset(@PathParam("trainId") String trainId) {
+  @PostMapping("reset/{trainId}")
+  public String reset(@PathVariable("trainId") String trainId) {
     resetTrains();
     return "";
   }
 
-  @Path("reserve")
-  @POST
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response reserve(ReservationRequest request) {
+  @PostMapping("reserve")
+  public String reserve(@RequestBody ReservationRequest request) {
     var trainId = request.train_id();
     var seats = request.seats();
     var bookingReference = request.booking_reference();
     JsonNode train = trains.get(trainId);
     if (train == null) {
-      return Response.status(404).entity("No such train: " + trainId).build();
+      throw new NoSuchTrain(trainId);
     }
     var jsonSeats = train.get("seats");
     for (var seatId : seats) {
 
       ObjectNode jsonSeat = (ObjectNode) jsonSeats.get(seatId);
       if (jsonSeat == null) {
-        return Response.status(404).entity("No such seat: " + seatId).build();
+        throw new NoSuchSeat(seatId);
       }
       var oldBookingReference = jsonSeat.get("booking_reference").asText();
-      if (!oldBookingReference.isEmpty() && oldBookingReference != bookingReference) {
-        String message = String.format(
-          "Seat %s is already booked with %s - cannot book with %s",
-          seatId,
-          oldBookingReference,
-          bookingReference
-        );
-        return Response.status(409).entity(message).build();
+      if (!oldBookingReference.isEmpty() && !oldBookingReference.equals(bookingReference)) {
+        throw new BookingConflict(seatId, oldBookingReference, bookingReference);
       }
       jsonSeat.put("booking_reference", bookingReference);
     }
-    return Response.status(200).entity(train).build();
+    return train.toPrettyString();
   }
 
-  @Path("data_for_train/{trainId}")
-  @GET
-  @Produces(MediaType.APPLICATION_JSON)
-  public Response get(@PathParam("trainId") String trainId) {
+  @GetMapping("data_for_train/{trainId}")
+  public String dataForTrain(@PathVariable("trainId") String trainId) {
     JsonNode train = trains.get(trainId);
     if (train == null) {
-      return Response.status(404).entity("No such train: " + trainId).build();
+      throw new NoSuchTrain(trainId);
     }
-    return Response.status(200).entity(train).build();
+    return train.toPrettyString();
   }
 }

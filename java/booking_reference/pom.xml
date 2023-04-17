@@ -8,8 +8,8 @@
     <version>3.0.0-M4</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
-  <groupId>fr.arrolla</groupId>
-  <artifactId>bookng-reference</artifactId>
+  <groupId>fr.arrolla.trainreservation</groupId>
+  <artifactId>booking-reference</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>booking-reference</name>
   <description>Service to get booking references</description>

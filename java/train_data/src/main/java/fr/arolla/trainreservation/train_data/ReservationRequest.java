@@ -1,4 +1,4 @@
-package info.dmerej;
+package fr.arolla.trainreservation.train_data;
 
 import java.util.List;
 
