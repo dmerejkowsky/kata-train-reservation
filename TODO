@@ -1,3 +1,4 @@
-* Merge all `start`  branches
 * C#: make sure all seats are in the same coach
 * C#: add a Seat record
+* Java: train_data: fix SpringBoot returning `{"code": 409"}` instead of
+  `BookingConflict.toString()`
