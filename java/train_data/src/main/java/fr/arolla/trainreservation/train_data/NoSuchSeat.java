@@ -10,6 +10,7 @@ public class NoSuchSeat extends RuntimeException {
 
   public NoSuchSeat(String seatId) {
     this.seatId = seatId;
+    System.out.println(this);
   }
 
   @Override

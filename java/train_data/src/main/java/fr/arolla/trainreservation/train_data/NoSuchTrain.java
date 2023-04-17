@@ -9,6 +9,7 @@ public class NoSuchTrain extends RuntimeException {
 
   public NoSuchTrain(String trainId) {
     this.trainId = trainId;
+    System.out.println(this);
   }
 
   @Override

@@ -15,12 +15,13 @@ public class BookingConflict extends RuntimeException {
     this.seatId = seatId;
     this.currentReference = currentReference;
     this.newReference = newReference;
+    System.out.println(this);
   }
 
 
   @Override
   public String toString() {
-    return String.format("Cannot book seat %d with %s - already booked with %s", seatId);
+    return String.format("Cannot book seat %s with %s - already booked with %s", seatId, newReference, currentReference);
   }
 }
 
