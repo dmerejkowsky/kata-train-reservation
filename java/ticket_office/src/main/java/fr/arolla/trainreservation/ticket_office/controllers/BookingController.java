@@ -1,9 +1,9 @@
-package fr.arolla.trainreservation.controllers;
+package fr.arolla.trainreservation.ticket_office.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.arolla.trainreservation.Seat;
+import fr.arolla.trainreservation.ticket_office.Seat;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
