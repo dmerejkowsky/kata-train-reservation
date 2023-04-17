@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 
-@ResponseStatus(code = HttpStatus.CONFLICT, reason = "Already booked")
+@ResponseStatus(code = HttpStatus.CONFLICT)
 
 public class BookingConflict extends RuntimeException {
   private final String seatId;

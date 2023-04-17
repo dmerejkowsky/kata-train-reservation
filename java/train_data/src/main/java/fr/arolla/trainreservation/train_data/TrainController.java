@@ -28,7 +28,7 @@ public class TrainController {
     }
   }
 
-  @PostMapping("reset/{trainId}")
+  @PostMapping(path = "/reset/{trainId}")
   public String reset(@PathVariable("trainId") String trainId) {
     resetTrains();
     return "";
