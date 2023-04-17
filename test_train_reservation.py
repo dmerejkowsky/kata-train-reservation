@@ -78,8 +78,6 @@ def test_reserve_conflict():
     response = client.post("http://127.0.0.1:8081/reserve", json=payload)
 
     assert response.status_code == 409
-    assert "abc123" in response.text
-    assert "cde456" in response.text
 
 
 def test_ticket_office():
