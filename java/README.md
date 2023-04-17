@@ -7,23 +7,19 @@
 
 ```
 cd booking_reference
-./mvnw quarkus:build && java -jar target/quarkus-app/quarkus-run.jar
+./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.booking_reference.Application
 ```
 
 and
 
 ```
 cd train_data
-./mvnw quarkus:build && java -jar target/quarkus-app/quarkus-run.jar
+./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.train_data.Application
 ```
 
-To run ticket_office, you can use:
+To run the ticket_office service, you can use:
 
 ```
 cd ticket_office
-./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.Application
+./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.ticket_office.Application
 ```
-
-Open the project in `ticket_office` and run the tests.
-
-
