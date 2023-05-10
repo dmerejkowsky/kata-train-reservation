@@ -70,7 +70,7 @@ public class TrainController {
 
   @ExceptionHandler({NoSuchTrain.class, NoSuchSeat.class})
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
-  public String handlerNotFound(RuntimeException e) {
+  public String handleNotFound(RuntimeException e) {
     return e.toString();
   }
 
