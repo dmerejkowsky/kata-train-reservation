@@ -22,6 +22,7 @@ def test_get_data_for_train_no_such_train():
     client = httpx.Client()
     response = client.get("http://127.0.0.1:8081/data_for_train/no-such")
     assert response.status_code == 404
+    assert "no-such" in response.text
 
 
 def test_get_data_for_existing_train():
