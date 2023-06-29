@@ -1,7 +1,7 @@
-import test from 'tape'
+import { describe, expect, test } from '@jest/globals'
 import fetch, { Body } from 'node-fetch'
 
-test('booking four seats from empty train', async (t) => {
+test('booking four seats from empty train', async () => {
   // Reset the train
   const trainId = 'express_2000'
   let response = await fetch(
@@ -9,8 +9,7 @@ test('booking four seats from empty train', async (t) => {
     { method: 'POST' }
   )
   const text = await response.text()
-  t.equal(response.status, 200, text)
-
+  expect(response.status).toBe(200)
 
   // Try to make a reservation
   const payload = { train_id: trainId, count: 4 }
@@ -22,17 +21,16 @@ test('booking four seats from empty train', async (t) => {
       headers: { 'Content-Type': 'application/json' }
     }
   )
-  t.equal(response.status, 200)
+  expect(response.status).toBe(200)
   const reservation = await response.json()
 
   // Check which seats have been reserved
-  t.equal(reservation.train_id, trainId)
-  t.deepEqual(reservation.seats, ['1A', '2A', '3A', '4A'])
-  t.end()
+  expect(reservation.train_id).toBe(trainId)
+  expect(reservation.seats).toEqual(['1A', '2A', '3A', '4A'])
 })
 
 
-test('booking four additional seats', async (t) => {
+test('booking four additional seats', async () => {
   // Reset the train
   const trainId = 'express_2000'
   let response = await fetch(
@@ -40,7 +38,7 @@ test('booking four additional seats', async (t) => {
     { method: 'POST' }
   )
   let text = await response.text()
-  t.equal(response.status, 200, text)
+  expect(response.status).toBe(200)
 
 
   // Make a first reservation for 4 seats
@@ -53,7 +51,7 @@ test('booking four additional seats', async (t) => {
       headers: { 'Content-Type': 'application/json' }
     }
   )
-  t.equal(response.status, 200)
+  expect(response.status).toBe(200)
 
   // Make a second reservation with 4 seats
 
@@ -68,7 +66,6 @@ test('booking four additional seats', async (t) => {
     }
   )
   text = await response.text()
-  // TODO: this fails with 500 because train-data returns 409
-  t.equal(response.status, 200, text)
+  expect(response.status).toBe(200)
 })
 
