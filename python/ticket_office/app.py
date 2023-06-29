@@ -21,7 +21,11 @@ def create_app():
         train_data = client.get(
             f"http://localhost:8081/data_for_train/" + train_id
         ).json()
-        available_seats = (s for s in train_data["seats"].values() if s["coach"] == "A")
+        available_seats = (
+            s
+            for s in train_data["seats"].values()
+            if s["coach"] == "A" and not s["booking_reference"]
+        )
         to_reserve = []
         for i in range(seat_count):
             to_reserve.append(next(available_seats))

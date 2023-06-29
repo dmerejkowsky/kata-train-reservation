@@ -39,4 +39,4 @@ def test_reserve_four_additional_seats():
     reservation = response.json()
     assert reservation["train_id"] == "express_2000"
     assert len(reservation["seats"]) == 4
-    assert reservation["seats"] == ["1B", "2B", "3B", "4B"]
+    assert reservation["seats"] == ["5A", "6A", "7A", "8A"]
