@@ -1,27 +1,7 @@
-"""
-You can get a unique booking reference using this service. For test
-purposes, you can start a local service using this code. You can assume
-the real service will behave the same way, but be available on a
-different url.
-
-Install [Python](http://python.org) and
-[Flask](https://flask.palletsprojects.com), then start the server by running:
-
-  FLASK_DEBUG=true flask run --port 8082
-
-You can use this service to get a unique booking reference. Make a GET request to:
-
-    http://localhost:8082/booking_reference
-
-This will return a string that looks a bit like this:
-
-	75bcd15
-"""
-
 from flask import Flask
 
 
-class Counter:
+class BookingReference:
     def __init__(self):
         self._count = 123456789
 
@@ -33,12 +13,17 @@ class Counter:
 
 
 def create_app():
-    counter = Counter()
+    booking_reference = BookingReference()
     app = Flask("booking_reference")
 
     @app.get("/booking_reference")
     def get_booking_reference():
-        counter.increment()
-        return counter.value()
+        booking_reference.increment()
+        return booking_reference.value()
 
     return app
+
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True, port=8082)

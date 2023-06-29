@@ -12,17 +12,17 @@ activate it.
 
 ```
 $ cd train_data
-$ FLASK_DEBUG=true flask run --port 8081
+$ python app.py
 ```
 
 ```
 $ cd booking_reference
-$ FLASK_DEBUG=true flask run --port 8082
+$ python app.py
 ```
 
 ```
 $ cd ticket_office
-$ FLASK_DEBUG=true flask run --port 8083
+$ python app.py
 ```
 
 ## Running the tests
@@ -30,5 +30,5 @@ $ FLASK_DEBUG=true flask run --port 8083
 Activate the virtualenv and run:
 
 ```
-$ pytest
+$ python -m pytest
 ```
