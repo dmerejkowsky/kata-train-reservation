@@ -18,6 +18,9 @@
     "typescript": "^4.9.5"
   },
   "scripts": {
+    "start:booking-reference": "ts-node booking-reference/app.ts",
+    "start:train-data": "ts-node train-data/app.ts",
+    "start:ticket-office": "ts-node ticket-office/app.ts",
     "test": "ts-node node_modules/tape/bin/tape **/*.test.ts | tap-spec"
   }
 }
