@@ -1,6 +1,6 @@
-# The Train Reservation kata
+# Train Reservation kata
 
-Original starting point:
+Original starting point, by Emily Bache:
 
 => https://github.com/emilybache/KataTrainReservation
 
@@ -15,8 +15,11 @@ decide exactly which seats should be reserved, at the time of booking.
 You're working on the "TicketOffice" service, and your next task is to
 implement the feature for reserving seats on a particular train. The
 railway operator has a service-oriented architecture, and both the
-interface you'll need to fulfill, and some services you'll need to use
-are already implemented.
+interface you'll need to fulfill, and the two services you'll need to use
+are already implemented - they are named 'train-data' and 'booking-reference'
+and their API is specified below. The third service is named 'ticket-office'
+and it's your job to finish implementing it (but keep reading till the end
+before jumping to the implementation!)
 
 # Business Rules around Reservations
 
@@ -28,7 +31,75 @@ you must put all the seats for one reservation in the same coach. This
 could make you and go over 70% for some coaches, just make sure to keep
 to 70% for the whole train.
 
-# TicketOffice specifications
+
+# Booking Reference API
+
+To get a new booking reference, simply call:
+
+`GET http://localhost:8082/booking_reference`
+
+The booking reference will be different each time your call it
+
+# Train Data API
+
+## Getting train data
+
+`GET http://localhost:8081/data_for_train/<train_id>`
+
+This will return a json document with information about the seats that
+this train has. The document you get back will look for example like
+this:
+
+
+```json
+{
+    "seats": {
+        "1A": {
+            "booking_reference": "abc123def",
+            "seat_number": "1",
+            "coach": "A"
+        },
+        "2A": {
+            "booking_reference": "",
+            "seat_number": "2",
+            "coach": "A"
+        }
+    }
+}
+```
+
+Here, seat "1A" is booked, but seat "2A" is free.
+
+## Booking some seats
+
+`POST http://localhost:8081/reserve`
+
+The body should look like:
+
+```json
+    {
+        "train_id": "express_2000",
+        "seats", : ["1A", "2A"],
+        "booking_reference": "abc123def"
+   }
+```
+
+Note that the server will prevent you from booking a seat that is
+already reserved with another booking reference, by returning a `409
+conflict` status.
+
+It is however OK to try and book the same seat with twice with the same booking reference.
+
+## Resetting the train
+
+Simply call:
+
+`POST  http://localhost:8081/reset/<train-id>`
+
+This should only be used for tests, of course
+
+
+# TicketOffice API
 
 The Ticket Office service needs to respond to a HTTP POST request that
 comes with form data telling you which train the customer wants to
@@ -55,6 +126,14 @@ should instead return a 400 status code.
 
 # Instructions
 
-One test is failing because ticket_office never checks that seats have been reserved
+Choose a language and open the matching folder in your favorite IDE. Follow the README
+to run the 3 webservices and the tests.
 
-Fix the test and the production code
+You'll notice that all the tests are passing - but the code does not
+implement all of the business rules - for instance, it does not check
+coach occupancy at all.
+
+Your goal is to switch to a better architecture - (hexagonal, for instance)
+and only *after* implement the rest of the specifications.
+
+Have fun!
