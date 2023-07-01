@@ -32,12 +32,12 @@ class EndToEndTests {
   private MockMvc mockMvc;
 
   @Test
-  void reserve_four_seats_from_empty_train() throws Exception {
+  void reserve_two_seats_from_empty_train() throws Exception {
     final String trainId = "express_2000";
     var restTemplate = new RestTemplate();
     restTemplate.postForObject("http://127.0.0.1:8081" + "/reset/" + trainId, null, String.class);
 
-    var request = new BookingRequest(trainId, 4);
+    var request = new BookingRequest(trainId, 2);
     var mapper = new ObjectMapper();
     ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
     String requestJson = ow.writeValueAsString(request);
@@ -53,19 +53,19 @@ class EndToEndTests {
     var objectMapper = new ObjectMapper();
     var bookingResponse = objectMapper.readValue(json, BookingResponse.class);
 
-    var expected = List.of("1A", "2A", "3A", "4A");
+    var expected = List.of("1A", "2A");
     assertEquals(expected, bookingResponse.seats());
   }
 
   @Test
-  void reserve_four_additional_seats() throws Exception {
+  void reserve_two_additional_seats() throws Exception {
     // Reset
     final String trainId = "express_2000";
     var restTemplate = new RestTemplate();
     restTemplate.postForObject("http://127.0.0.1:8081" + "/reset/" + trainId, null, String.class);
 
-    // Book 4 seats
-    var request = new BookingRequest(trainId, 4);
+    // Book 2 seats
+    var request = new BookingRequest(trainId, 2);
     var mapper = new ObjectMapper();
     ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
     String requestJson = ow.writeValueAsString(request);
@@ -75,19 +75,17 @@ class EndToEndTests {
         .content(requestJson))
       .andExpect(status().isOk());
 
-    // Book 4 additional seats
+    // Book 2 additional seats
     var result = mockMvc.perform(post(url).contentType(APPLICATION_JSON_UTF8)
         .content(requestJson))
       .andExpect(status().isOk())
       .andReturn()
       .getResponse();
-
-
     var json = result.getContentAsString();
     var objectMapper = new ObjectMapper();
     var bookingResponse = objectMapper.readValue(json, BookingResponse.class);
 
-    var expected = List.of("5A", "6A", "7A", "8A");
+    var expected = List.of("3A", "4A");
     assertEquals(expected, bookingResponse.seats());
   }
 
