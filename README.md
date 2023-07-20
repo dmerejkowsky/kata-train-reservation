@@ -103,21 +103,29 @@ This should only be used for tests, of course
 
 The Ticket Office service needs to respond to a HTTP POST request that
 comes with form data telling you which train the customer wants to
-reserve seats on, and how many they want. It should return a json
-document detailing the reservation that has been made.
+reserve seats on, and how many they want.
 
-A reservation comprises a json document with three fields, the train id,
-booking reference, and the ids of the seats that have been reserved.
-Example json:
+For instance:
+
+```json
+{
+  "train_id": "express_2000",
+  "count": 4
+}
+```
+
+It should return a json document detailing the reservation that has been
+made, containing the booking reference, and the ids of the seats that
+have been reserved, and the name of the train:
 
 ```json
 {
    "booking_reference" : "75bcd15",
+   "train_id": "express_2000",
    "seats" : [
       "1A",
       "1B"
-   ],
-   "train_id" : "express_2000"
+   ]
 }
 ```
 
