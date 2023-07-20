@@ -7,19 +7,21 @@
 
 ```
 cd booking_reference
-./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.booking_reference.Application
+./mvnw compile exec:java
 ```
 
 and
 
 ```
 cd train_data
-./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.train_data.Application
+./mvnw compile exec:java
 ```
 
 To run the ticket_office service, you can use:
 
 ```
 cd ticket_office
-./mvnw compile exec:java -Dexec.mainClass=fr.arolla.trainreservation.ticket_office.Application
+./mvnw compile exec:java
 ```
+
+or use the appropriate "run configuration" from IntelliJ
