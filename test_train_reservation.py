@@ -95,3 +95,5 @@ def test_ticket_office():
     assert response.status_code == 200, response.text
     response = response.json()
     assert response["seats"] == ["1A", "2A"]
+    assert response["train_id"] == "express_2000"
+    assert response["booking_reference"]
