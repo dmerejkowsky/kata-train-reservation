@@ -17,7 +17,10 @@ import java.util.Map;
 @RestController
 public class BookingController {
 
+  private final RestTemplate restTemplate;
+
   BookingController() {
+    restTemplate = new RestTemplate();
   }
 
   @RequestMapping("/reserve")
@@ -26,7 +29,6 @@ public class BookingController {
     var trainId = bookingRequest.train_id();
 
     // Step 1: Get a booking reference
-    var restTemplate = new RestTemplate();
     var bookingReference = restTemplate.getForObject("http://127.0.0.1:8082/booking_reference", String.class);
 
     // Step 2: Retrieve train data for the given train ID
