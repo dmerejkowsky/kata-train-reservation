@@ -30,5 +30,6 @@ $ python app.py
 Activate the virtualenv and run:
 
 ```
+$ cd ticket_office
 $ python -m pytest
 ```
