@@ -22,3 +22,9 @@ yarn start:train-data
 ```
 yarn start:ticket-office
 ```
+
+## Running the tests
+
+```
+yarn test
+```
