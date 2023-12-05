@@ -21,7 +21,7 @@ and their API is specified below. The third service is named 'ticket-office'
 and it's your job to finish implementing it (but keep reading till the end
 before jumping to the implementation!)
 
-# Business Rules around Reservations
+# Business Rules around reservations
 
 There are various business rules and policies around which seats may be
 reserved. For a train overall, no more than 70% of seats may be reserved
@@ -79,7 +79,7 @@ The body should look like:
 ```json
     {
         "train_id": "express_2000",
-        "seats", : ["1A", "2A"],
+        "seats": ["1A", "2A"],
         "booking_reference": "abc123def"
    }
 ```
