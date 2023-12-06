@@ -9,18 +9,20 @@
     "node-fetch": "^2.6.2"
   },
   "devDependencies": {
-    "@jest/globals": "^29.5.0",
     "@types/express": "^4.17.17",
     "@types/morgan": "^1.9.4",
     "@types/node-fetch": "^2.6.2",
     "@types/tape": "^4.13.2",
+    "typescript": "^4.9.5",
+    "@jest/globals": "^29.5.0",
     "jest": "^29.5.0",
-    "ts-jest": "^29.1.0",
     "ts-node": "^10.9.1",
-    "typescript": "^4.9.5"
+    "ts-jest": "^29.1.0"
   },
   "scripts": {
-    "start": "ts-node app.ts",
+    "start:booking-reference": "ts-node booking-reference/app.ts",
+    "start:train-data": "ts-node train-data/app.ts",
+    "start:ticket-office": "ts-node ticket-office/app.ts",
     "test": "jest"
   }
 }

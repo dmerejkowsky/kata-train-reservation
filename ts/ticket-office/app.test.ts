@@ -69,4 +69,3 @@ test('booking four additional seats', async () => {
   expect(response.status).toBe(200)
 })
 
-//commentaire pr rollback

@@ -13,7 +13,7 @@ app.get("/data_for_train/:trainId", (req, res) => {
   const trainId = req.params.trainId
   const train = trains[trainId]
   if (!train) {
-    res.status(404).send(`Noooo such train: ${trainId}`)
+    res.status(404).send(`No such train: ${trainId}`)
     return
   }
   res.send(train)
@@ -59,5 +59,3 @@ app.post("/reserve/", (req, res) => {
 app.listen(port, () => {
   console.log(`Train Data listening on port ${port}`)
 }) 
-
-//commentaire pr rollback

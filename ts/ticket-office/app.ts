@@ -19,7 +19,7 @@ app.post("/reserve", async (req, res) => {
   let response = await fetch("http://localhost:8082/booking_reference")
   const bookingReference = await response.text()
 
-  // Step 2: fetchhh train data
+  // Step 2: fetch train data
   response = await fetch(`http://localhost:8081/data_for_train/${trainId}`)
   const train = await response.json()
   const seatsInTrain: Seat[] = Object.values(train.seats)

@@ -5,4 +5,3 @@ type Seat = {
 }
 
 export { Seat }
-//commentaire pr rollback
