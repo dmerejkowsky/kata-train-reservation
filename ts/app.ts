@@ -7,7 +7,6 @@ app.use(express.urlencoded({ extended: false, limit: "10mb" }));
 const PORT = 8080;
 
 // Routes
-app.use("/booking-reference", require("./controllers/booking-reference/app"));
 app.use("/ticket-office", require("./controllers/ticket-office/app"));
 app.use("/train-data", require("./controllers/train-data/app"));
 

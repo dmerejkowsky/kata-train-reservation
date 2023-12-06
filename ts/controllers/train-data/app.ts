@@ -5,15 +5,10 @@ const router = express.Router();
 
 const trains = require("./trains.json");
 
-router.get("/data_for_train/:trainId", (req, res) => {
-  const trainId = req.params.trainId;
-  const train = trains[trainId];
-  if (!train) {
-    res.status(404).send(`No such train: ${trainId}`);
-    return;
-  }
-  res.send(train);
-});
+export const getTrainData = async (trainId: string) => {
+  if (!trains[trainId]) throw new Error(`No such train: ${trainId}`);
+  return trains[trainId];
+};
 
 router.post("/reset/:trainId", (req, res) => {
   const trainId = req.params.trainId;
@@ -31,12 +26,10 @@ router.post("/reset/:trainId", (req, res) => {
   res.send("ok");
 });
 
-router.post("/reserve/", (req, res) => {
-  const { booking_reference, train_id, seats } = req.body;
+export const bookSeat = async ({ booking_reference, train_id, seats }: any) => {
   const train = trains[train_id];
   if (!train) {
-    res.status(404).send(`No such train: ${train_id}`);
-    return;
+    throw new Error(`No such train: ${train_id}`);
   }
 
   for (const seatId of seats) {
@@ -46,17 +39,14 @@ router.post("/reserve/", (req, res) => {
       previousBookingReference != "" &&
       previousBookingReference != booking_reference
     ) {
-      res
-        .status(409)
-        .send(
-          `Could not book '${seatId}' with '${booking_reference}' - already booked with '${previousBookingReference}'`
-        );
-      return;
+      throw new Error(
+        `Could not book '${seatId}' with '${booking_reference}' - already booked with '${previousBookingReference}'`
+      );
     }
     seat.booking_reference = booking_reference;
   }
 
-  res.send(train);
-});
+  return train;
+};
 
 module.exports = router;

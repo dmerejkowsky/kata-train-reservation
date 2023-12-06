@@ -1,5 +1,3 @@
-import express from "express";
-const router = express.Router();
 class Counter {
   private _count: number;
 
@@ -18,9 +16,7 @@ class Counter {
 
 const counter = new Counter();
 
-router.get("/booking_reference", (req, res) => {
+export const getBookingReference = async () => {
   counter.increment();
-  res.send(counter.value());
-});
-
-module.exports = router;
+  return counter.value();
+};
