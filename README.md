@@ -156,23 +156,30 @@ Have fun!
 
 # Detailed Instructions
 
-## Extract a RestClient
+## Getting rid of the HTTP calls
 
 Your first goal is to make sure the tests can run without the other two web services running.
 
-Doing so requires some changes in the production cod.
+Doing so requires some changes in the production code ...
 
 <details>
+    
 <summary>java</summary>
+
 Remove the `restTemplate` attribute of the `BookingController` class, and remove the
 calls to `restTemplate.getForObject` and `restTemplate.postForObject`
+
 </details>
+
 <details>
 <summary>python</summary>
+
 Remove the creation of a `Session`  instance from the `requests` library, and remove the
 calls to `session.get()` and `session.post()` in `app.py`
 </details>
 
+
+## Implementing an interface
 
 <details>
 <summary>java</summary>
