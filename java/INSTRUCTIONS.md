@@ -4,6 +4,9 @@
 
 Extract a RestClient with two implementors: HttpClient (using the restTemplate) and a FakeHttpClient
 
+<details>
+<summary>java</summary>
+  
 ```java
 interface RestClient {
   String getBookingReference();
@@ -11,6 +14,7 @@ interface RestClient {
   void makeReservation(HashMap<String, Object> payload);
 }
 ```
+</details>
 
 Use this to write an *integration test* that looks like this:
 
