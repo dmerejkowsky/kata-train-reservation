@@ -55,7 +55,7 @@ public class BookingController {
     }
 
     // Step 3: find available seats 
-    var availableSeats = seats.stream().filter(seat.bookingReference() == null);
+    var availableSeats = seats.stream().filter(seat -> seat.bookingReference() == null);
 
     // Step 4: call the '/reserve' end point
     var toReserve = availableSeats.limit(seatCount);
