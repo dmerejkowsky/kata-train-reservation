@@ -165,7 +165,9 @@ Doing so requires some changes in the production cod.
 <details>
 <summary>java</summary>
 Remove the `restTemplate` attribute of the `BookingController` class, and remove the
-calls to `restTemplate.getForObject` and `restTemplate.postForObect`
+calls to `restTemplate.getForObject` and `restTemplate.postForObject`
+</details>
+<details>
 <summary>python</summary>
 Remove the creation of a `Session`  instance from the `requests` library, and remove the
 calls to `session.get()` and `session.post()` in `app.py`
