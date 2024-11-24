@@ -212,8 +212,8 @@ Introduce a bug in the controller:
 
 
 ```diff
--        available_seats = [s for s in train_data["seats"].values() if not s.booking_reference][0:seat_count]
-+        available_seats = [s for s in train_data["seats"].values()][0:seat_count]
+-      available_seats = [s for s in seats if not s["booking_reference"]][0:seat_count]
++      available_seats = [s for s in seats][0:seat_count]
 ```
 
 The end-to-end tests should fail (because the Client gets a 409 status code) - but the integration tests
