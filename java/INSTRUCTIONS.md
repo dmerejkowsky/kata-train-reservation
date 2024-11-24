@@ -1,11 +1,23 @@
 # Step by step instructions (java)
 
-## Extract a RestClient
+## Start writing integration tests
 
-Extract a RestClient with two implementors: HttpClient (using the restTemplate) and a FakeHttpClient
 
-<details>
-<summary>java</summary>
+Your first goal is to make sure the tests can run without the other two web services running.
+
+Doing so requires some changes in the production code.  In particular,
+you should remove the `restTemplate` attribute of the
+`BookingController` class, and remove the calls to
+`restTemplate.getForObject` and `restTemplate.postForObject`
+
+But you need to do that without breaking the production code and the end-to-end tests.
+
+## Implementing an interface
+
+In order to keep the end-to-end tests writing while being able to call
+the `BookingController()` methods direrctly in a test,  extract a
+RestClient interface with two implementations: HttpClient (using the restTemplate)
+and a FakeHttpClient:
   
 ```java
 interface RestClient {
@@ -14,26 +26,35 @@ interface RestClient {
   void makeReservation(HashMap<String, Object> payload);
 }
 ```
-</details>
-
-Use this to write an *integration test* that looks like this:
 
 ```java
-class IntegrationTests {
-  @Test
-  void book_two_seats_from_empty_train() {
-    var fakeHttpClient = new FakeHttpClient();
+// Implementation of the interface for the production code:
+class HttpClient implements RestClient {
+  private final ResTemplate restTemplate;
 
-    var bookingController = new BookingController(fakeHttpClient);
-
-    var bookingResponse = bookingController.book(bookingRequest);
+  String getBookingReference() {
+    // ...
   }
 }
 ```
 
-Use a dummy FakeHttpClient at first - test should fail because of a json parsing error
+```java
+// Implementation of the interface for the test code:
+class FakeHttpClient implements RestClient {
 
-The BookingController should now look like this:
+  String getBookingReference() {
+    return "abc123";
+  }
+
+  String getTrainData() {
+    return "";
+  }
+
+  // ...
+}
+```
+
+Refactor the BookingController class so that it looks like this:
 
 ```java
 BookingController() {
@@ -51,10 +72,29 @@ BookingController() {
   // ...
 }
 ```
+
+Finally, write an *integration test* that looks like this and make sure it compiles:
+
+```java
+class IntegrationTests {
+  @Test
+  void book_two_seats_from_empty_train() {
+    var fakeHttpClient = new FakeHttpClient();
+
+    var bookingController = new BookingController(fakeHttpClient);
+
+    var bookingResponse = bookingController.book(bookingRequest);
+  }
+}
+```
+
+The end-to-end tests should still pass, but the integration test should fail because of a JSON parsing error.
+
 ## Improve RestClient API
 
-
-Introduce a `Train` and a `Reservation` class so that the RestClient interface now looks like this:
+In order to make the integration test pass,  introduce a `Train` and a
+`Reservation` class so that the RestClient interface now looks like
+this:
 
 ```diff
 interface RestClient {
@@ -67,7 +107,9 @@ interface RestClient {
 }
 ```
 
-Now make sure the integration test passes:
+Refactor the production and the test code
+
+Now change the integration test to look like this and make sure it passes:
 
 ```java
 class IntegrationTests {
@@ -111,15 +153,14 @@ class IntegrationTests {
 Remove the `filter()`  call inside BookingController
 
 The end-to-end test should fail for the right reason - because of a 409 HTTP Exception - but
-the integration test should fail for the *wrong* reason.
+the integration tests will fail for the *wrong* reason.
 
-## Make the test fail for right reason
+## Make the integration test fail for right reason
 
-To make it fail for the right reason, add a Unit Test for the seat class:
+To make the integration fail for the right reason, add a Unit Test for the seat class:
 
 ```java
-  class SeatTestst {
-  class
+class SeatTestst {
   @Test
   void cannot_book_a_seat_twice() {
     var seat = Seat.available("1A");
@@ -130,11 +171,11 @@ To make it fail for the right reason, add a Unit Test for the seat class:
 }
 ```
 
-Then make sure the integration test calls `Seat.book()`.
+Then make sure the integration tests call `Seat.book()`.
 
 This time, the IntegrationTests should fail with an `AlreadyBookedException`.
 
-Finally, re-add the call to `filter()` and make sure all the tests pass
+When this is the case, re-add the call to `filter()` and make sure all the tests pass
 
 ## Extracting the core logic
 
