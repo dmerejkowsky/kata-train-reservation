@@ -15,13 +15,15 @@ interface RestClient {
 Use this to write an *integration test* that looks like this:
 
 ```java
-@Test
-void book_two_seats_from_empty_train() {
-  var fakeHttpClient = new FakeHttpClient();
+class IntegrationTests {
+  @Test
+  void book_two_seats_from_empty_train() {
+    var fakeHttpClient = new FakeHttpClient();
 
-  var bookingController = new BookingController(fakeHttpClient);
+    var bookingController = new BookingController(fakeHttpClient);
 
-  var bookingResponse = bookingController.book(bookingRequest);
+    var bookingResponse = bookingController.book(bookingRequest);
+  }
 }
 ```
 
@@ -64,16 +66,18 @@ interface RestClient {
 Now make sure the integration test passes:
 
 ```java
-@Test
-void book_two_seats_from_empty_train() {
-  var train = Helpers.newEmptyTrain("express_2000",
-    "1A" , "2A", "3A" , "4A"
-  );
-  fakeHttpClient.setTrain(train)
+class IntegrationTests {
+  @Test
+  void book_two_seats_from_empty_train() {
+    var train = Helpers.newEmptyTrain("express_2000",
+      "1A" , "2A", "3A" , "4A"
+    );
+    fakeHttpClient.setTrain(train)
 
-  var bookingResponse = bookingController.book(bookingRequest);
+    var bookingResponse = bookingController.book(bookingRequest);
 
-  assertEquals(List.of("1A", "2A"), bookingResponse.seatIds());
+    assertEquals(List.of("1A", "2A"), bookingResponse.seatIds());
+  }
 }
 ```
 
@@ -82,17 +86,19 @@ void book_two_seats_from_empty_train() {
 Again, make this test compile and pass:
 
 ```java
-@Test
-void book_two_additional_seats() {
-  var train = Helpers.newEmptyTrain("express_2000",
-    "1A" , "2A", "3A" , "4A"
-  );
-  train.bookSeats(List.of("1A", "2A"));
-  fakeHttpClient.setTrain(train)
+class IntegrationTests {
+  @Test
+  void book_two_additional_seats() {
+    var train = Helpers.newEmptyTrain("express_2000",
+      "1A" , "2A", "3A" , "4A"
+    );
+    train.bookSeats(List.of("1A", "2A"));
+    fakeHttpClient.setTrain(train)
 
-  var bookingResponse = bookingController.book(bookingRequest);
+    var bookingResponse = bookingController.book(bookingRequest);
 
-  assertEquals(List.of("3A", "4A"), bookingResponse.seatIds());
+    assertEquals(List.of("3A", "4A"), bookingResponse.seatIds());
+  }
 }
 ```
 
@@ -105,39 +111,52 @@ the integration test should fail for the *wrong* reason.
 
 ## Make the test fail for right reason
 
-To make it fail for the right reason, make this test compile and pass:
+To make it fail for the right reason, add a Unit Test for the seat class:
 
 ```java
-@Test
-void cannot_book_a_seat_twice() {
-  var seat = Seat.available("1A");
-  seat.book("abc123");
+  class SeatTestst {
+  class
+  @Test
+  void cannot_book_a_seat_twice() {
+    var seat = Seat.available("1A");
+    seat.book("abc123");
 
-  assertThrows(AlreadyBookedException, seat.book("def456");
+    assertThrows(AlreadyBookedException, seat.book("def456");
+  }
 }
 ```
 
-Then make sure the integration test calls `Seat.book()` and re-add the call to `filter()`
+Then make sure the integration test calls `Seat.book()`.
+
+This time, the IntegrationTests should fail with an `AlreadyBookedException`.
+
+Finally, re-add the call to `filter()` and make sure all the tests pass
 
 ## Extracting the core logic
 
-Finally, make this test compile and pass:
+Make this test compile and pass:
 
 ```java
-@Test
-void finding_seats() {
-  var train = Helpers.newEmptyTrain("express_2000",
-    "1A" , "2A", "3A" , "4A"
-  );
-  train.bookSeats("1A" , "2A");
+class SeatFinderTests {
+  @Test
+  void finding_seats() {
+    var train = Helpers.newEmptyTrain("express_2000",
+      "1A" , "2A", "3A" , "4A"
+    );
+    train.bookSeats("1A" , "2A");
 
-  var seatFinder = new SeatFinder(train);
+    var seatFinder = new SeatFinder(train);
 
-  var ids = seatFinder.findSeats(2);
+    var ids = seatFinder.findSeats(2);
 
-  assertEquals(List.of("3A", "4A"), ids);
+    assertEquals(List.of("3A", "4A"), ids);
+  }
 }
 ```
 
-Refactor BookingController so that it uses the SeatFinder class
+Refactor BookingController so that it uses the SeatFinder class.
+
+## Conclusion
+
+What do you think about the final architecture?
 
