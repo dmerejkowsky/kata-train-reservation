@@ -44,9 +44,7 @@ Doing so requires some changes in the production code.  In particular,
 you should remove the usage of the requests `Session()` object inside the
 `reserve()` function.
 
-But you need to do that without breaking the production code and the end-to-end tests.
-
-And add a new integration test:
+But you need to do that without breaking the production code and without breaking the end-to-end tests.
 
 ## Introducing a BookingController
 
